@@ -25,8 +25,16 @@ const db = mysql.createConnection(
 );
 
 // Query the database to test the connection
-db.query(`SELECT * FROM candidates`, (err, rows) => {
-  console.log(rows);
+// db.query(`SELECT * FROM candidates`, (err, rows) => {
+//   console.log(rows);
+// });
+
+// GET a single candidate
+db.query(`SELECT * FROM candidates WHERE id = 1`, (err, row) => {
+  if (err) {
+    console.log(err);
+  }
+  console.log(row);
 });
 
 // Default response for any other request (Not Found) (Catchall)
