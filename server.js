@@ -10,20 +10,26 @@ const app = express();
 // Express middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
 // Connect to Database
 const db = mysql.createConnection(
   {
     host: "localhost",
     // Your MySQL username
-    user: "blaine.curren",
+    user: "root",
     // Your MySQL password
-    password: "LxzY-g9D2SbsmQP",
+    password: "Jojo2727",
     database: "election",
   },
   console.log("Connected to the election database.")
 );
 
-// Default response for any other request (Not Found)
+// Query the database to test the connection
+db.query(`SELECT * FROM candidates`, (err, rows) => {
+  console.log(rows);
+});
+
+// Default response for any other request (Not Found) (Catchall)
 app.use((req, res) => {
   res.status(404).end();
 });
