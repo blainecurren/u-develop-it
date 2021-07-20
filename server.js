@@ -2,6 +2,10 @@
 const mysql = require("mysql2");
 
 const express = require("express");
+const { restElement } = require("@babel/types");
+
+// inputCheck() function
+const inputCheck = require("./utils/inputCheck");
 
 // PORT Designation and App expression
 const PORT = process.env.PORT || 3001;
@@ -85,16 +89,28 @@ app.delete("/api/candidate/:id", (req, res) => {
 });
 
 // Create a candidate
-// const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected)
-// VALUES (?,?,?,?)`;
-// const params = [1, "Ronald", "Firbank", 1];
+app.post("/api/candidate", ({ body }, res) => {
+  const errors = inputCheck(
+    body,
+    "first_name",
+    "last_name",
+    "industry_connected"
+  );
+  const sql = `INSERT INTO candidates (first_name, last_name, industry_connected)
+  VALUES (?,?,?)`;
+  const params = [body.first_name, body.last_name, body.industry_connected];
 
-// db.query(sql, params, (err, result) => {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log(result);
-// });
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: "success",
+      data: body,
+    });
+  });
+});
 
 // Default response for any other request (Not Found) (Catchall)
 app.use((req, res) => {
