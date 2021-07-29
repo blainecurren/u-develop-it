@@ -4,24 +4,24 @@ const db = require("../../db/connection");
 const inputCheck = require("../../utils/inputCheck");
 
 // Get all candidates
-app.get("/api/candidates", (req, res) => {
-    const sql = `SELECT candidates.*, parties.name 
+router.get("/api/candidates", (req, res) => {
+  const sql = `SELECT candidates.*, parties.name 
     AS party_name 
     FROM candidates 
     LEFT JOIN parties 
     ON candidates.party_id = parties.id`;
-  
-    db.query(sql, (err, rows) => {
-      if (err) {
-        res.status(500).json({ error: err.message });
-        return;
-      }
-      res.json({
-        message: "success",
-        data: rows,
-      });
+
+  db.query(sql, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: "success",
+      data: rows,
     });
-  });  
+  });
+});
 
 // GET a single candidate
 router.get("/api/candidate/:id", (req, res) => {
