@@ -63,6 +63,7 @@ app.get("/api/candidate/:id", (req, res) => {
   });
 });
 
+// GET parties
 app.get("/api/parties", (req, res) => {
   const sql = `SELECT * FROM parties`;
   db.query(sql, (err, rows) => {
@@ -73,6 +74,22 @@ app.get("/api/parties", (req, res) => {
     res.json({
       message: "success",
       data: rows,
+    });
+  });
+});
+
+app.get("/api/party/:id", (req, res) => {
+  const sql = `SELECT * FROM parties
+  WHERE id =?`;
+  const params = [req.params.id];
+  db.query(sql, params, (err, row) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: "success",
+      data: row,
     });
   });
 });
