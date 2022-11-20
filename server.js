@@ -5,9 +5,13 @@ const inputCheck = require("./utils/inputCheck");
 const PORT = process.env.PORT || 3001;
 const app = express();
 
+const apiRoutes = require("./routes/apiRoutes");
+
 // Express middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+app.use("/api", apiRoutes);
 
 // Get all candidates
 app.get("/api/candidates", (req, res) => {
